@@ -14,7 +14,6 @@ body {
 }
 
 .Header {
-
   text-align: center;
   max-width: 400px;
 }
@@ -45,5 +44,22 @@ h3 {
   background-color: #10A95B;
   border-radius: 5px;
   padding: 0.5px 0;
+  margin-block: 30px;
 }
 
+.Chips {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 350px;
+    gap: 5px;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.guess-word {
+  gap: 2px; 
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  text-align: center;
+}
