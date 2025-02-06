@@ -8,16 +8,20 @@ import Chips from './components/Chips'
  * Goal: Build out the main parts of our app
  * 
  * Challenge: 
- * 1. Save a "currentWord" in state. Initialize as "react".
- * 2. Map over the letters of the word (you'll need to turn 
- *    the string into an array of letters first) and display
- *    each one as a <span>. Capitalize the letters when
- *    displaying them.
- * 3. Style to look like the design. You can get the underline 
- *    effect on the box using `border-bottom`.
+ * Display the keyboard ⌨️. Use <button>s for each letter
+ * since it'll need to be clickable and tab-accessible.
  */
 function App() {
   const [currentWord, setCurrentWord] = useState('React');
+
+  const alphabet = "abcdefghijklmnopqrstuvwxyz"
+
+  const keyboard = alphabet.toUpperCase().split('').map((l, index) => 
+    <button key={l} style={{width: '40px',
+      height: '40px', border: '1px solid #D7D7D7', borderRadius: '4px', 
+      fontSize: '1rem'}}>{l}</button>
+  )
+
 
   const letters = currentWord.toUpperCase().split('').map((l, index) => {
       const styles = {
@@ -31,9 +35,11 @@ function App() {
       }  
 
       return (
-        <span style={styles}>{l}</span>
+        <span style={styles} key={index}>{l}</span>
       );
 });
+
+
 
   return (
     <main>
@@ -43,6 +49,10 @@ function App() {
       <section className = "guess-word">
         {letters}
       </section>
+      <section className= 'guess-keyboard'>
+        {keyboard}
+      </section>
+      <button className="new-game">New Game</button>
     </main>
   );
 }
