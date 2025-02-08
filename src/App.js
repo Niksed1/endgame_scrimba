@@ -3,39 +3,55 @@ import './App.css';
 import Header from './components/Header'
 import Status from './components/Status'
 import Chips from './components/Chips'
+import {clsx} from 'clsx';
 
 /**
- * Goal: Build out the main parts of our app
+ * Goal: Allow the user to start guessing the letters
  * 
- * Challenge: 
- * Display the keyboard ⌨️. Use <button>s for each letter
- * since it'll need to be clickable and tab-accessible.
+ * Challenge: Update the keyboard when a letter is right
+ * or wrong.
+ * 
+ * Bonus: use the `clsx` package to easily add conditional 
+ * classNames to the keys of the keyboard. Check the docs 
+ * to learn how to use it 📖
  */
 function App() {
-  const [currentWord, setCurrentWord] = useState('React');
+  const [currentWord, setCurrentWord] = useState('react');
+  console.log(currentWord.includes('a'))
+
+  const [guessed, setGuessed] = useState([]);
+  console.log(guessed)
 
   const alphabet = "abcdefghijklmnopqrstuvwxyz"
 
-  const keyboard = alphabet.toUpperCase().split('').map((l, index) => 
-    <button key={l} style={{width: '40px',
-      height: '40px', border: '1px solid #D7D7D7', borderRadius: '4px', 
-      fontSize: '1rem'}}>{l}</button>
-  )
+  function addGuessed(letter){
+    setGuessed(prev => { 
+      const letterSet = new Set(prev);
+      letterSet.add(letter)
+      return Array.from(letterSet)
+     })
+    
+  }
+
+  const keyboard = alphabet.toUpperCase().split('').map((l, index) => {
+    const isGuessed = guessed.includes(l)
+    //console.log(isGuessed)
+    const isCorrect = isGuessed && currentWord.includes(l.toLowerCase())
+    //console.log(isCorrect)
+    const isWrong = isGuessed && !currentWord.includes(l.toLowerCase())
+    const className = clsx(isCorrect && 'correct', isWrong && 'wrong')
+    console.log(className)
+
+    return (
+      <button className={className}
+      onClick = {() => addGuessed(l)} key={l} >{l}</button>
+    );
+  })
 
 
   const letters = currentWord.toUpperCase().split('').map((l, index) => {
-      const styles = {
-        width: '40px',
-        height: '40px',
-        backgroundColor: '#323232',
-        color: '#F9F4DA',
-        fontWeight: 700,
-        padding: '5px',
-        borderBottom: '2px solid #F9F4DA'
-      }  
-
       return (
-        <span style={styles} key={index}>{l}</span>
+        <span key={index}>{l}</span>
       );
 });
 
