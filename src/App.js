@@ -16,11 +16,13 @@ import {clsx} from 'clsx';
  * to learn how to use it 📖
  */
 function App() {
+  //State values
   const [currentWord, setCurrentWord] = useState('react');
-  console.log(currentWord.includes('a'))
-
   const [guessed, setGuessed] = useState([]);
-  console.log(guessed)
+
+  //derived values
+  const wrongGuessCount = guessed.filter(l => !currentWord.includes(l.toLowerCase())).length //.length;
+  console.log("wrong count: ", wrongGuessCount)
 
   const alphabet = "abcdefghijklmnopqrstuvwxyz"
 
@@ -40,7 +42,7 @@ function App() {
     //console.log(isCorrect)
     const isWrong = isGuessed && !currentWord.includes(l.toLowerCase())
     const className = clsx(isCorrect && 'correct', isWrong && 'wrong')
-    console.log(className)
+    //console.log(className)
 
     return (
       <button className={className}
@@ -51,7 +53,7 @@ function App() {
 
   const letters = currentWord.toUpperCase().split('').map((l, index) => {
       return (
-        <span key={index}>{l}</span>
+        <span key={index}>{guessed.includes(l) ? l : ""}</span>
       );
 });
 
