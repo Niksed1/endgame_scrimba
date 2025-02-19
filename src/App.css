@@ -41,14 +41,21 @@ h3 {
   margin-top: 0px;
 }
 
-.Status {
+.status{
   text-align: center;
-  background-color: #10A95B;
   border-radius: 5px;
   margin-block: 30px;
   margin: 0 auto;
   max-width: 450px;
   margin-bottom: 20px;
+}
+
+.won {
+  background-color: #10A95B;
+}
+
+.lost {
+  background-color: #BA2A2A;
 }
 
 .Chips {
@@ -60,6 +67,26 @@ h3 {
     margin: 0 auto;
     font-size: 0.8rem;
     font-weight: 700;
+    position: relative;
+}
+
+span.lost {
+  position: relative; 
+}
+
+
+span.lost::before {
+  content: "💀";
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  font-size: 0.85rem;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .guess-word {

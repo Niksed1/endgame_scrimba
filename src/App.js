@@ -3,18 +3,22 @@ import './App.css';
 import Header from './components/Header'
 import Status from './components/Status'
 import Chips from './components/Chips'
+import { languages } from "./components/languages";
 import {clsx} from 'clsx';
 
 /**
- * Goal: Allow the user to start guessing the letters
+ * Goal: Add in the incorrect guesses mechanism to the game
  * 
- * Challenge: Update the keyboard when a letter is right
- * or wrong.
+ * Challenge:
+ * Conditionally render either the "won" or "lost" statuses
+ * from the design, both the text and the styles, based on the
+ * new derived variables.
  * 
- * Bonus: use the `clsx` package to easily add conditional 
- * classNames to the keys of the keyboard. Check the docs 
- * to learn how to use it 📖
+ * Note: We always want the surrounding `section` to be rendered,
+ * so only change the content inside that section. Otherwise the
+ * content on the page would jump around a bit too much.
  */
+
 function App() {
   //State values
   const [currentWord, setCurrentWord] = useState('react');
@@ -22,7 +26,12 @@ function App() {
 
   //derived values
   const wrongGuessCount = guessed.filter(l => !currentWord.includes(l.toLowerCase())).length //.length;
-  console.log("wrong count: ", wrongGuessCount)
+  //console.log("wrong count: ", wrongGuessCount)
+  const isGameOver = wrongGuessCount >= languages.length-1 ? true : false;
+  const isGameWon = currentWord.split("").every(l => guessed.includes(l.toUpperCase())); 
+  const isGameLost = isGameWon || isGameOver
+
+  console.log('won the game: ', isGameWon)
 
   const alphabet = "abcdefghijklmnopqrstuvwxyz"
 
@@ -62,15 +71,18 @@ function App() {
   return (
     <main>
       <Header/>
-      <Status/>
-      <Chips/>
+      <Status 
+        isGameWon = {isGameWon}
+        isGameOver = {isGameOver}/>
+      <Chips
+        wrongGuessCount={wrongGuessCount}/>
       <section className = "guess-word">
         {letters}
       </section>
       <section className= 'guess-keyboard'>
         {keyboard}
       </section>
-      <button className="new-game">New Game</button>
+      {isGameLost && <button className="new-game">New Game</button>}
     </main>
   );
 }
